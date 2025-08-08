@@ -94,43 +94,25 @@ Route::middleware(['auth', 'role:parent'])->prefix('parent')->group(function () 
     Route::get('/children', [ParentController::class, 'children'])->name('parent.children');
 });
 
-// Front-end static pages quick access routes (redirects to files in public/Madarek Front End)
+// Front-end quick access routes now point to Laravel Blade pages and app routes
 Route::prefix('fe')->group(function () {
-    // Root points to the top-level front-end index
-    Route::get('/', function () {
-        return redirect('/Madarek Front End/index-dev.html');
-    })->name('fe.home');
+    // Developer index page rendered via Blade
+    Route::view('/', 'fe.index')->name('fe.home');
 
-    // Arabic folders mapped to ASCII endpoints for convenience
-    Route::get('/admin', function () {
-        return redirect('/Madarek Front End/الإداري/index.html');
-    })->name('fe.admin');
-
-    Route::get('/manager', function () {
-        return redirect('/Madarek Front End/المدير/index.html');
-    })->name('fe.manager');
-
-    Route::get('/teacher', function () {
-        return redirect('/Madarek Front End/المعلم/index.html');
-    })->name('fe.teacher');
-
-    Route::get('/external-teacher', function () {
-        return redirect('/Madarek Front End/المعلم الخارجي/index.html');
-    })->name('fe.external_teacher');
-
-    Route::get('/student', function () {
-        return redirect('/Madarek Front End/الطالب/index.html');
-    })->name('fe.student');
-
-    Route::get('/parent', function () {
-        return redirect('/Madarek Front End/ولي الامر/index.html');
-    })->name('fe.parent');
+    // Friendly aliases that redirect to the respective Laravel sections
+    Route::get('/admin', fn () => redirect()->route('admin.dashboard'))->name('fe.admin');
+    Route::get('/manager', fn () => redirect()->route('manager.dashboard'))->name('fe.manager');
+    Route::get('/teacher', fn () => redirect()->route('teacher.dashboard'))->name('fe.teacher');
+    Route::get('/external-teacher', fn () => redirect('/'))->name('fe.external_teacher'); // placeholder
+    Route::get('/student', fn () => redirect()->route('student.dashboard'))->name('fe.student');
+    Route::get('/parent', fn () => redirect()->route('parent.dashboard'))->name('fe.parent');
 });
 
 // Preview routes (no auth) to quickly see the new Blade pages
 Route::prefix('preview')->group(function () {
     Route::get('/manager/dashboard', [ManagerController::class, 'dashboard']);
     Route::get('/manager/users', [ManagerController::class, 'users']);
+    Route::get('/manager/classes', [ManagerController::class, 'classes']);
 });
 
 // Authentication routes
