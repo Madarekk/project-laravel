@@ -112,6 +112,7 @@ Route::prefix('fe')->group(function () {
 Route::prefix('preview')->group(function () {
     Route::get('/manager/dashboard', [ManagerController::class, 'dashboard']);
     Route::get('/manager/users', [ManagerController::class, 'users']);
+    Route::get('/manager/classes', [ManagerController::class, 'classes']);
 });
 
 // Authentication routes
