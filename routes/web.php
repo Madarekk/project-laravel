@@ -94,19 +94,9 @@ Route::middleware(['auth', 'role:parent'])->prefix('parent')->group(function () 
     Route::get('/children', [ParentController::class, 'children'])->name('parent.children');
 });
 
-// Front-end static pages quick access routes (redirects to files in public/Madarek Front End)
+// Front-end developer navigation (Blade only)
 Route::prefix('fe')->group(function () {
-    // Root points to the Blade preview index for front-end
     Route::view('/', 'fe.index')->name('fe.home');
-
-    // Keep legacy redirects for quick raw HTML preview if needed
-    Route::get('/raw', function () { return redirect('/Madarek Front End/index-dev.html'); });
-    Route::get('/raw/admin', function () { return redirect('/Madarek Front End/الإداري/index.html'); });
-    Route::get('/raw/manager', function () { return redirect('/Madarek Front End/المدير/index.html'); });
-    Route::get('/raw/teacher', function () { return redirect('/Madarek Front End/المعلم/index.html'); });
-    Route::get('/raw/external-teacher', function () { return redirect('/Madarek Front End/المعلم الخارجي/index.html'); });
-    Route::get('/raw/student', function () { return redirect('/Madarek Front End/الطالب/index.html'); });
-    Route::get('/raw/parent', function () { return redirect('/Madarek Front End/ولي الامر/index.html'); });
 });
 
 // Preview routes (no auth) to quickly see the new Blade pages
