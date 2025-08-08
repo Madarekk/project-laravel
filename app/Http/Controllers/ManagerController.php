@@ -71,8 +71,15 @@ class ManagerController extends Controller
 
         $classesByGrade = $allClasses->groupBy('grade_level');
 
+        // Provide a paginated flat list as well for templates that expect $classes
+        $classes = ClassModel::orderBy('grade_level')
+            ->orderBy('class_number')
+            ->paginate(12)
+            ->withQueryString();
+
         return view('manager.classes', [
             'classesByGrade' => $classesByGrade,
+            'classes' => $classes,
         ]);
     }
 
